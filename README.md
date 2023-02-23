@@ -87,10 +87,10 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/
     ```
 
 2. Set Up a New Portainer CE(on Linux) on **Manager Node**
-    เป็นการติดตั้งผ่านไฟล์ .yml (Download file) จากนั้นนำมา run บน Manager Node    
+    เป็นการติดตั้งผ่านไฟล์ .yml (Download file) จากนั้นนำมา run บน Manager Node
+
     ```
     curl -L https://downloads.portainer.io/ce2-17/portainer-agent-stack.yml -o portainer-agent-stack.yml
-
     docker stack deploy -c portainer-agent-stack.yml portainer  //อัพขึ้น Stack ชื่อ portainer
     ```  
 จากนั้นลอง docker ps เป็นการตรวจสอบและนำ port ที่กำหนดไว้ภายใน docker-compose.yml มาทดลองใช้งานเว็บไซต์
@@ -115,20 +115,19 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/
 
 4. ทดลอง Deploy hello-world-noProxy
 
-Ref: 
->(https://github.com/pitimon/dockerswarm-inhoure/tree/main/ep03-hello-world-noRevProxy)
-
     4.1) ใช้ผ่าน GUI คลิกที่ Stacks บน Portainer ให้คลิก Add Stack
-    ```
-    #สิ่งที่ต้องกำหนด#
+
+        #สิ่งที่ต้องกำหนด#
         Name : (ตามที่ผู้ใช้ตั้ง)
         Web editor : (ข้อมูลนำมาจาก Stack ผ่าน Terminal )        
-    ```
+    
+    
     จากนั้นคลิก deploy in progress..
 
     4.2) หน้า Stacks list ให้คลิกเลือกตัว stacks ที่พึ่งสร้างเสร็จ
         ##มีโอกาสที่ต้องทำเอง
 
-
+Ref: 
+>(https://github.com/pitimon/dockerswarm-inhoure/tree/main/ep03-hello-world-noRevProxy)
 
  
