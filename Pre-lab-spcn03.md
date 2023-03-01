@@ -116,7 +116,7 @@
 
 4. ทดลอง Deploy hello-world-noProxy
 
-    4.1) ใช้ผ่าน GUI คลิกที่ Stacks บน Portainer ให้คลิก Add Stack
+    4.1) ใช้ผ่าน GUI คลิกที่ Stacks บน Portainer ให้คลิก Add stack
 
         #สิ่งที่ต้องกำหนด#
         Name : (ตามที่ผู้ใช้ตั้ง)
@@ -126,7 +126,12 @@
     จากนั้นคลิก deploy in progress..
 
     4.2) หน้า Stacks list ให้คลิกเลือกตัว stacks ที่พึ่งสร้างเสร็จ
-        ##มีโอกาสที่ต้องทำเอง
+    * การเข้าถึงของ os (ubuntu)
+        - Add stack> กรอกชื่อ *e.g. mystack*
+        - Web editor> *copy code for stcks you want to add in your stack*
+        - คลิก Deploy stacks(ถ้าไม่มีอะไรผิดพลาด)
+    * การเข้าถึง os เมื่อเรา deploy มาแล้ว
+        - คลิก Stcks> *name of stack(ที่เราตั้งไว้ เช่น ubuntu-test etc.)*> เลื่อนมาตรง service แล้วคลิกชื่อ serrvice ที่มี> คลิก Exsc Console> คลิก Connect
 
 Ref: 
 >(https://github.com/pitimon/dockerswarm-inhoure/tree/main/ep03-hello-world-noRevProxy)
