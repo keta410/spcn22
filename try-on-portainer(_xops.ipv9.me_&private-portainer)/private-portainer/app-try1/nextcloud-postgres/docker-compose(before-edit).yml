@@ -1,0 +1,53 @@
+version: '3.0'
+services:
+  nc:
+    image: nextcloud:apache
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+#ไม่จำเป็นต้องกำหนด port เมื่อ run ผ่าน portainer(ipv9.me)
+    restart: always
+    volumes:
+      - nc_data:/var/www/html 
+    #deploy:
+      #replicas: 1
+      #labels:
+        #- traefik.docker.network=webproxy
+        #- traefik.enable=ture
+        #- traefik.http.routers.${APPNAME}-https.entrypoints=websecure
+        #- traefik.http.routers.${APPNAME}-https.rule=Host("${APPNAME}.xops.ipv9.me")
+        #- traefik.http.routers.${APPNAME}-https.tls.certresolver=default
+        #- traefik.http.services.${APPNAME}.loadbalancer.server.port=80
+
+  db: 
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    #network:
+    #deploy:
+      #replicas: 1
+      #rexources:
+        #feservations:
+          #cpus: '0.1'
+          #memory: 8M
+        #limits:
+          #cpus: '0.4'
+          #memory: 64M
+volumes: 
+  db_data:
+  nc_data: 
+
+#networks:
+  #nextcloud:
+    #driver: overlay
+  #webproxy:
+    #external: true <= fix (Can used, Only in this networks)

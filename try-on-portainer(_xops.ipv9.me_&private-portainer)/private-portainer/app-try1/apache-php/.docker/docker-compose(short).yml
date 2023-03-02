@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  web:
+    image: keta410/apache-php:v1  #My images, I create in [docker hub]
+    volumes:
+      - app:/var/www/html/
+    networks:
+      - traefik-public
+    deploy:
+      replicas: 1
+      labels:
+        traefik.constraint-label: traefik-public
+        traefik.docker.network: traefik-public
+        traefik.enable: 'true'
+        traefik.http.routers.keta-http.entrypoints: http
+        traefik.http.routers.keta-http.rule: Host(`keta.demo`)
+        traefik.http.services.keta.loadbalancer.server.port: '80'
+        traefik.http.routers.keta-http.middlewares: https-redirect
+        traefik.http.routers.keta-https.rule: Host(`keta.demo`)
+        traefik.http.routers.keta-https.entrypoints: https
+        traefik.http.routers.keta-https.tls: 'true'
+      resources:
+        reservations:
+          cpus: '0.1'
+          memory: 8M
+        limits:
+          cpus: '0.4'
+          memory: 64M
+
+volumes:
+  app:
+
+networks:
+  traefik-public:
+    external: true

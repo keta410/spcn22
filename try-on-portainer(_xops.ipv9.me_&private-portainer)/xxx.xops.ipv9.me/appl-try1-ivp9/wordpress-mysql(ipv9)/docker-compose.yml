@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  db: 
+    image: mariadb:10.6.4-focal
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/vat/lib/mysql
+    restart: always
+    networks:
+      - wp #wp => form wordpress
+
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+   
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    networks:
+      - wp
+      - webproxy
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.docker.network=webproxy #Can Change, because it's name of network
+        - traefik.enable=true
+        - traefik.constraint-label=webproxy #Can Change, name of container(same as network)
+        - traefik.http.routers.${APPNAME}-https.entrypoints=websecure
+        - traefik.http.routers.${APPNAME}-https.rule=Host("${APPNAME}.xops.ipv9.me") #For fix name of website(example. spcn22.xops.ipv9.me)
+        - traefik.http.routers.${APPNAME}-https.tls.certresolver=default
+        - traefik.http.services.${APPNAME}.loadbalancer.server.port=80 
+        - traefik.http.routers.${APPNAME}-https.tls=true
+
+        #APPNAME => Custom name variables 
+                    #for me 
+                    #APPNAME = spcn22wp-mysql
+                    
+volumes:
+  db_data:
+networks:
+  wp: 
+    driver: overlay
+  webproxy:
+    external: true

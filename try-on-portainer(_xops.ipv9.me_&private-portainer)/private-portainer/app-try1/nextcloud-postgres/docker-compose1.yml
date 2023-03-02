@@ -1,0 +1,41 @@
+## not network
+version: '3.0'
+services:
+  nc: #nextcloud <= name's app
+    image: nextcloud:apache
+    #have network
+    #network:
+      #-nextcloud
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+    ports:
+      - 100:80
+    restart: always
+    volumes:
+      - nc_data:/var/www/html
+  db: #database
+    image: postgres:alpine  #app:version
+    #have network
+    #network:
+      #-nextcloud
+    environment:
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+    restart: always
+    volumes: #for collect data(address)
+      - db_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+volumes:  #in Docker
+  db_data:
+  nc_data:
+
+#have network
+
+#networks:
+  #nextcloud:
+    #driver: overlay
